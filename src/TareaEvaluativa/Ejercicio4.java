@@ -36,13 +36,13 @@ public class Ejercicio4 {
 				tiposBuffer.setLength(10);
 
 				//Escribimos los datos de cada registro
-				acceso.writeInt(ids[i]);							//---------4-----------
-				acceso.writeChars(dnisBuffer.toString());			//---------18----------
-				acceso.writeChars(nomsBuffer.toString());			//---------20----------
-				acceso.writeChars(identidadesBuffer.toString());	//---------40----------
-				acceso.writeChars(tiposBuffer.toString());			//---------20----------
-				acceso.writeInt(pesos[i]);							//---------4-----------
-				acceso.writeInt(alturas[i]);						//---------4-----------
+				acceso.writeInt(ids[i]);							
+				acceso.writeChars(dnisBuffer.toString());			
+				acceso.writeChars(nomsBuffer.toString());			
+				acceso.writeChars(identidadesBuffer.toString());	
+				acceso.writeChars(tiposBuffer.toString());			
+				acceso.writeInt(pesos[i]);							
+				acceso.writeInt(alturas[i]);						
 
 				//El largo de cada registro es de 110bytes (4id + 18dni + 20nombre + 40identidad + 20tipo + 4peso + 4altura)
 			}

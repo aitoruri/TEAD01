@@ -8,7 +8,6 @@ public class Ejercicio4c {
 		File fichero = new File("Ficheros\\Marvel.dat");
 		Scanner teclado = new Scanner(System.in);
 		
-		//El largo de cada registro es de 110bytes (4id + 18dni + 20nombre + 40identidad + 20tipo + 4peso + 4altura)
 		try {
 			RandomAccessFile leer = new RandomAccessFile(fichero, "r");
 			System.out.print("Introduce un tipo de personaje: ");
@@ -16,9 +15,6 @@ public class Ejercicio4c {
 			
 			boolean tipoExiste = false;
 			int encontrado = 0;
-			
-			//Por cada personaje recogemos todos sus datos y los añadimos a una lista
-			//[dni=xxxxxx, nombre=Spiderman, ..........................]
 			
 			for(int posicion=0; posicion<leer.length(); posicion+=110) {
 				ArrayList<String> lista = new ArrayList<String>();
