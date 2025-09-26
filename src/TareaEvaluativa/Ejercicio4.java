@@ -47,64 +47,65 @@ public class Ejercicio4 {
 				//El largo de cada registro es de 110bytes (4id + 18dni + 20nombre + 40identidad + 20tipo + 4peso + 4altura)
 			}
 			System.out.println("La carga de los personajes se ha realizado correctamente.");
+			
+			//Manipulación de los datos
+			try {
+				boolean dniExiste = false;
+				RandomAccessFile leer = new RandomAccessFile(fichero, "r");
+				System.out.println("Introduzca el DNI (con letra) del personaje para el control de peso:");
+				String dniIntroducido = teclado.nextLine();
+
+				char[] dniChar = new char[9];
+				char[] nombreChar = new char[10];
+
+				for(int posicion = 0; posicion < leer.length(); posicion+=110) {
+					leer.seek(posicion); 
+
+					//Recogemos dni
+					leer.skipBytes(4); 
+					for(int i=0;i<9;i++) {
+						dniChar[i] = leer.readChar();
+					}
+					String dniString = new String(dniChar);
+
+					if(dniString.trim().equalsIgnoreCase(dniIntroducido)) { //Si encontramos el dni
+						dniExiste = true;
+						System.out.println("Introduzca su peso actual: ");
+						int pesoActual = teclado.nextInt();
+
+						//Recogemos el nombre
+						for(int i=0;i<10;i++) {
+							nombreChar[i] = leer.readChar();
+						}
+						String nombreString = new String(nombreChar).trim();
+
+						//Recogemos peso
+						leer.skipBytes(60);
+						int pesoAnterior = leer.readInt();
+
+						if(pesoAnterior > pesoActual) {
+							System.out.printf("%s ha adelgazado %d kilos.",nombreString,pesoAnterior-pesoActual);
+						}
+						else if(pesoAnterior < pesoActual) {
+							System.out.printf("%s ha engordado %d kilos.",nombreString,pesoActual-pesoAnterior);
+						}
+						else {
+							System.out.printf("%s se mantiene en su peso anterior.",nombreString);
+						}	
+					}
+				}
+
+				if(!dniExiste) {
+					System.out.println("Ese personaje no existe.");
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		} catch (Exception e) {
 			System.out.println("La carga de los personajes ha fallado.");
 		}
 
-		//Manipulación de los datos
-		try {
-			boolean dniExiste = false;
-			RandomAccessFile leer = new RandomAccessFile(fichero, "r");
-			System.out.println("Introduzca el DNI (con letra) del personaje para el control de peso:");
-			String dniIntroducido = teclado.nextLine();
-
-			char[] dniChar = new char[9];
-			char[] nombreChar = new char[10];
-
-			for(int posicion = 0; posicion < leer.length(); posicion+=110) {
-				leer.seek(posicion); 
-
-				//Recogemos dni
-				leer.skipBytes(4); 
-				for(int i=0;i<9;i++) {
-					dniChar[i] = leer.readChar();
-				}
-				String dniString = new String(dniChar);
-
-				if(dniString.trim().equalsIgnoreCase(dniIntroducido)) { //Si encontramos el dni
-					dniExiste = true;
-					System.out.println("Introduzca su peso actual: ");
-					int pesoActual = teclado.nextInt();
-
-					//Recogemos el nombre
-					for(int i=0;i<10;i++) {
-						nombreChar[i] = leer.readChar();
-					}
-					String nombreString = new String(nombreChar).trim();
-
-					//Recogemos peso
-					leer.skipBytes(60);
-					int pesoAnterior = leer.readInt();
-
-					if(pesoAnterior > pesoActual) {
-						System.out.printf("%s ha adelgazado %d kilos.",nombreString,pesoAnterior-pesoActual);
-					}
-					else if(pesoAnterior < pesoActual) {
-						System.out.printf("%s ha engordado %d kilos.",nombreString,pesoActual-pesoAnterior);
-					}
-					else {
-						System.out.printf("%s se mantiene en su peso anterior.",nombreString);
-					}	
-				}
-			}
-			
-			if(!dniExiste) {
-				System.out.println("Ese personaje no existe.");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
